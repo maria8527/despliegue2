@@ -14,7 +14,7 @@ import { request } from 'http';
 
 const router = Router(); 
 
-router.get('/registro', decodeToken, async (req: Request, res: Response) => { 
+router.get('/registro',  async (req: Request, res: Response) => { 
   let cliente = await pool.connect();
   const result: QueryResult = await pool.query('SELECT * FROM registro;');
   try {
@@ -66,7 +66,7 @@ console.log(email, nombre_completo)
  }
   });
 
-router.put("/registro/:id", decodeToken, validator.body(registroSchema), async (req: Request, res: Response) =>{
+router.put("/registro/:id", validator.body(registroSchema), async (req: Request, res: Response) =>{
   let cliente = await pool.connect();
   const id = parseInt(req.params.id);
   const { nombre_completo, fecha_nacimiento, numero_celular, tipo_documento, n_documento, profesion_u_oficio,
@@ -83,7 +83,7 @@ router.put("/registro/:id", decodeToken, validator.body(registroSchema), async (
 }
 });
 
-router.delete("/registro/:id", decodeToken, async (req: Request, res: Response) =>{
+router.delete("/registro/:id",  async (req: Request, res: Response) =>{
   let cliente = await pool.connect();
   const {id} = req.params;
       await pool.query(`DELETE FROM registro WHERE id = ${id};`)

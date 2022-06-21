@@ -51,7 +51,7 @@ router.get('/registro/:id', adminTokens_1.decodeToken, (req, res) => __awaiter(v
         cliente.release(true);
     }
 }));
-router.post("/registro", validator_1.default.body(registro_schema_1.default), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post("/registro", adminTokens_1.decodeToken, validator_1.default.body(registro_schema_1.default), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cliente = yield db_1.pool.connect();
     const { nombre_completo, fecha_nacimiento, numero_celular, tipo_documento, n_documento, profesion_u_oficio, direccion, email, rol, contrasena } = req.body;
     const result = yield db_1.pool.query('INSERT INTO registro (nombre_completo, fecha_nacimiento, numero_celular, tipo_documento, n_documento, profesion_u_oficio, direccion, email, rol, contrasena) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10);', ([nombre_completo, fecha_nacimiento, numero_celular, tipo_documento, n_documento, profesion_u_oficio,
@@ -72,7 +72,7 @@ router.post("/registro", validator_1.default.body(registro_schema_1.default), (r
         cliente.release(true);
     }
 }));
-router.put("/registro/:id", adminTokens_1.decodeToken, validator_1.default.body(registro_schema_1.default), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.put("/registro/:id", validator_1.default.body(registro_schema_1.default), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cliente = yield db_1.pool.connect();
     const id = parseInt(req.params.id);
     const { nombre_completo, fecha_nacimiento, numero_celular, tipo_documento, n_documento, profesion_u_oficio, direccion, email, rol, contrasena } = req.body;
@@ -103,7 +103,7 @@ router.delete("/registro/:id", (req, res) => __awaiter(void 0, void 0, void 0, f
         cliente.release(true);
     }
 }));
-router.get("/prestamo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/prestamo", adminTokens_1.decodeToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cliente = yield db_1.pool.connect();
     const result = yield db_1.pool.query('SELECT * FROM prestamo;');
     try {
@@ -117,7 +117,7 @@ router.get("/prestamo", (req, res) => __awaiter(void 0, void 0, void 0, function
         cliente.release(true);
     }
 }));
-router.get("/prestamo1", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/prestamo1", adminTokens_1.decodeToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cliente = yield db_1.pool.connect();
     const result = yield db_1.pool.query('SELECT cuota_pagar AS cuota, saldo_restante AS saldo_faltante FROM pago;');
     try {
@@ -147,7 +147,7 @@ router.get("/prestamo/:id", adminTokens_1.decodeToken, (req, res) => __awaiter(v
         cliente.release(true);
     }
 }));
-router.post("/prestamo", validator_1.default.body(prestamo_schema_1.default), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post("/prestamo", adminTokens_1.decodeToken, validator_1.default.body(prestamo_schema_1.default), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cliente = yield db_1.pool.connect();
     const { nombre_completo, fecha_creacion, monto_prestar, plazo_en_meses, tasa_interes, estado, id_registro } = req.body;
     const result = yield db_1.pool.query('INSERT INTO prestamo (nombre_completo, fecha_creacion, monto_prestar, plazo_en_meses, tasa_interes, estado, id_registro) VALUES ($1,$2,$3,$4,$5,$6,$7);', ([nombre_completo, fecha_creacion, monto_prestar, plazo_en_meses, tasa_interes, estado, id_registro]));

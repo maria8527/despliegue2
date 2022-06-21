@@ -32,7 +32,7 @@ exports.prestaRouter.use((err, _req, res, next) => {
         res.status(500).send('Internal server error');
     }
 });
-exports.prestaRouter.get("/score", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.prestaRouter.get("/score", adminTokens_1.decodeToken, (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const score = yield database_2_1.collection.score.find({}).toArray();
         res.status(200).send(score);
@@ -41,7 +41,7 @@ exports.prestaRouter.get("/score", (_req, res) => __awaiter(void 0, void 0, void
         res.status(500).send(error.message);
     }
 }));
-exports.prestaRouter.get("/mongo", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.prestaRouter.get("/mongo", adminTokens_1.decodeToken, (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user_no_register = yield database_service_1.collections.user_no_register.find({}).toArray();
     try {
         return res.status(200).send(user_no_register);

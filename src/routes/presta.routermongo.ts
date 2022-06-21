@@ -32,7 +32,7 @@ prestaRouter.get("/score", decodeToken, async (_req: Request, res: Response) => 
     }
 })
 
-prestaRouter.get("/mongo", decodeToken, async (_req: Request, res: Response) => {
+prestaRouter.get("/mongo",  async (_req: Request, res: Response) => {
     const user_no_register = await collections.user_no_register.find({}).toArray();
     try {
         return res.status(200).send(user_no_register);
@@ -41,16 +41,17 @@ prestaRouter.get("/mongo", decodeToken, async (_req: Request, res: Response) => 
     }
 });
 
-prestaRouter.post("/mongo", decodeToken, validator.body(prestaSchema), async (_req: Request, res: Response) => {
+prestaRouter.post("/mongo",  validator.body(prestaSchema), async (_req: Request, res: Response) => {
+    const newUser_no_register = _req.body;
+    const simulator = await collections.user_no_register.insertOne(newUser_no_register);
+    const {monto_prestar, plazo_meses} = newUser_no_register
+    const interes = 0.25;
+    let total = monto_prestar * interes * parseFloat(plazo_meses)
+    const int = {total:total, intereses:interes}
     try {
-        const newUser_no_register = _req.body;
-        const result = await collections.user_no_register.insertOne(newUser_no_register);
-        result
-            ? res.status(201).send(`Successfully created a new user no register with id ${result.insertedId}`)
-            : res.status(500).send("Failed to create a new user no register.");
+        return res.status(200).json(int)    
     } catch (error) {
-        console.error(error);
-        res.status(400).send(error.message);
+        res.status(500).send(error.message);   
     }
 });
 

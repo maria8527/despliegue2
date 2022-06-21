@@ -12,6 +12,7 @@ const presta_routermongo_1 = require("./routes/presta.routermongo");
 const auth_router_1 = require("../src/routes/auth.router");
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+// import { routerClass } from '../src/class';    
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
@@ -52,6 +53,7 @@ app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.de
     app.use("/", presta_routermongo_1.prestaRouter);
     app.use("/auth", auth_router_1.authRouter);
     app.use("/api", presta_router_1.default);
+    // app.use("/hola", routerClass);
 })
     .catch((Error) => {
     console.error("Database connection failed", Error);
